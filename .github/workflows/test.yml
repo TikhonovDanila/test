@@ -26,4 +26,4 @@ jobs:
         echo "PRIVATE_KEY_PATH: $PRIVATE_KEY_PATH"
     
     - name: Deploy to remote server
-      run: scp -i ${{ env.PRIVATE_KEY_PATH }} -r ./ info@178.250.152.97:/home/info/web/lib2.libercode.site/public_html
+      run: scp -i ${{ env.PRIVATE_KEY_PATH }} -r ./ root@89.191.229.174:/var/www/html/test
