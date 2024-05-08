@@ -1,0 +1,11 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  script:
+    - apt-get update -qy
+    - apt-get install -y openssh-client
+    - scp -i /path/to/private_key -o StrictHostKeyChecking=no -r ./path/to/files user@remote_server:/path/to/destination
+  only:
+    - master
