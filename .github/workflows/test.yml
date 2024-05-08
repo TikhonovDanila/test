@@ -1,0 +1,21 @@
+name: Deploy to Remote Server
+
+on:
+  push:
+    branches:
+      - main  # Измените на вашу основную ветку
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Deploy to remote server
+      run: |
+        ssh-keyscan -H 178.250.152.97 >> ~/.ssh/known_hosts
+        scp -i ${{ secrets.PRIVATE_KEY_PATH }} -r ./ info@178.250.152.97:/home/info/web/lib2.libercode.site/public_html
+      env:
+        PRIVATE_KEY_PATH: ${{ secrets.PRIVATE_KEY_PATH }}
