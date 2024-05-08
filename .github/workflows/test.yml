@@ -27,4 +27,4 @@ jobs:
 
       - name: Copy files to remote server
         run: |
-          scp -r /github/workspace/* root@89.191.229.174:/var/www/html/test
+          scp -r /* root@89.191.229.174:/var/www/html/test
