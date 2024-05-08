@@ -1,29 +1,30 @@
-name: Deploy to Remote Server
+name: Копирование файлов на удаленный сервер
 
 on:
   push:
-    branches:
-      - main  # Измените на вашу основную ветку
+    branches: [ main ]
 
 jobs:
-  deploy:
+  copy-files:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    
-    - name: Create SSH directory and known_hosts file
-      run: |
-        mkdir -p ~/.ssh
-        touch ~/.ssh/known_hosts
-        ssh-keyscan -H 89.191.229.174 >> ~/.ssh/known_hosts
-      env:
-        CI_SSH_KEY: ${{ secrets.PRIVATE_KEY_PATH }} # Ваш приватный ключ SSH
-        PRIVATE_KEY_PATH: ${{ secrets.PRIVATE_KEY_PATH }}
-        SSH_KNOWN_HOSTS: ~/.ssh/known_hosts
-        # Добавим вывод переменной в логи
-        echo "PRIVATE_KEY_PATH: $PRIVATE_KEY_PATH"
-    
-    - name: Deploy to remote server
-      run: scp -i ${{ env.PRIVATE_KEY_PATH }} -r ./ root@89.191.229.174:/var/www/html/test
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install SSH key
+        uses: actions/setup-ssh@v3
+        with:
+          ssh-key-path: ${{ secrets.PRIVATE_KEY_PATH }}
+          ssh-private-key-file: github
+
+      - name: Connect to remote server
+        uses: actions/connect@v3
+        with:
+          server: 89.191.229.174
+          user: root
+          private-key-file: github
+
+      - name: Copy files to remote server
+        run: |
+          scp -r /github/workspace/* root@89.191.229.174:/var/www/html/test
