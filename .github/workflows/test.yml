@@ -5,18 +5,19 @@ on:
     branches: [ main ]
 
 jobs:
+  deploy:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: LuisEnMarroquin/setup-ssh-action@v2.0.0
+        with:
+          SSHKEY: ${{ secrets.PRIVATE_KEY_PATH }} # ----- BEGIN RSA PRIVATE KEY----- ...
+      - run: ssh -T git@github.com || true
   copy-files:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Install SSH key
-        uses: actions/setup-ssh@v terbaru
-        with:
-          ssh-key-path: ${{ secrets.PRIVATE_KEY_PATH }}
-          ssh-private-key-file: github
 
       - name: Connect to remote server
         uses: actions/connect@v terbaru
