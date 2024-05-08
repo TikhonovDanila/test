@@ -16,9 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
+ 
       - name: Connect to remote server
         uses: actions/connect@v3
         with:
