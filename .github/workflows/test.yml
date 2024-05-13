@@ -18,9 +18,10 @@ jobs:
     steps:
  
       - name: Connect to remote server
-        uses: actions/connect@v3
+        uses: actions/connect@v2
         with:
           server: 89.191.229.174
+          port: 22
           user: root
           private-key-file: github
 
